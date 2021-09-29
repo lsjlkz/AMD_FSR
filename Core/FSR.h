@@ -5,47 +5,63 @@
 #ifndef AMD_FSR_FSR_H
 #define AMD_FSR_FSR_H
 
-class Point {
+#include "Point.h"
+
+
+class NormalLapras{
 private:
-    int row;
-    int col;
+    static float *weight;
 public:
-    Point(int _row, int _col);
-
-    int GetRow() { return this->row; }
-
-    int GetCol() { return this->col; }
+    // 获取通用拉普拉斯算子
+    static float *GetNormalLaprasMatrix(int matrix[], Point *point){
+        return weight;
+    }
 };
-
 
 class FSR {
 private:
 
-    // 获取某点的带权拉普拉斯权重矩阵
-    int *GetPartWeightMatrix(int matrix[], Point *point, int allCol);
+    // 获取某点的边缘特征，就是Feature，越小越平缓，越大越边缘
+    static float GetPointEdgeCharacter(int matrix[], Point *point);
 
-    // 获取某点的边缘特征
-    int GetPointEdgeCharacter(int matrix[], Point *point, int allCol);
+    // 获取某点的权重
+    static float GetPointWeight(int matrix[], Point *point, float dist);
 
-    // 某点与右边的边缘特征
-    int GetPointEdgeCharacterX(int matrix[], Point *point, int allCol);
+    // 计算某两点之间的边缘特征
+    static int CalPointMinusPointEdgeCharacter(int matrix[], Point *point, Point *otherPoint);
 
-    // 某点与下边的边缘特征
-    int GetPointEdgeCharacterY(int matrix[], Point *point, int allCol);
+    // 某点x轴的边缘特征，就是FeatureX轴，越小越平缓，越大越边缘
+    static float CalPointEdgeCharacterX(int matrix[], Point *point);
+
+    // 某点y轴的边缘特征，就是FeatureY轴，越小越平缓，越大越边缘
+    static float CalPointEdgeCharacterY(int matrix[], Point *point);
 
     // 获取某点边上某点的权重
-    int GetPointEdgePointWeight(int matrix[], Point *point);
+    static float GetPointEdgePointWeight(int matrix[], Point *point);
+
+    // 获取某点权重的w
+    static float GetLanczos2W(float feature);
+
+    static float GetLanczos2(float w, float dist);
+
+    static int GetMatrixEdgeData(){
+        return 0;
+    }
 
 public:
-    static int *getAllMatrixData(int matrix[], int row, int col, int*(* f)(...));
-    // 获取通用拉普拉斯算子
-    static int* GetPartMatrixNormalLapras(...);
+    static float *getAllMatrixData(int matrix[], float *(*f)(int _matrix[], Point *_point));
+
+    // 获取通用拉普拉斯算子计算值
+    static float GetPartNormalLaprasData(int matrix[], Point *point);
 
     // 获取权重拉普拉斯算子
-    static int* GetPartMatrixWeightLapras(int matrix[], Point *point, int allCol);
+    static int *GetPartMatrixWeightLapras(int matrix[], Point *point);
 
     // 根据权重拉普拉斯算子计算值
-    static int GetPartWeightMatrixData(int matrix[], int weight[], Point* point, int allCol);
+    static float GetPartWeightMatrixData(int matrix[], float weight[], Point *point);
+
+    // 获取某点的带权拉普拉斯权重矩阵
+    static float *GetPartWeightMatrix(int matrix[], Point *point);
 };
 
 
