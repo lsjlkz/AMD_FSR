@@ -55,11 +55,11 @@ float *FSR::getAllMatrixData(int matrix[], float *(*f)(int _matrix[], Point *_po
             continue;
         }
         float *weight = f(matrix, new Point(_row, _col));
-        for(int i=0; i < 3; i++){
-            for(int j =0; j <3; j++){
-                std::cout << weight[i * 3 + j] << "\t";
-            }std::cout << std::endl;
-        }
+//        for(int i=0; i < 3; i++){
+//            for(int j =0; j <3; j++){
+//                std::cout << weight[i * 3 + j] << "\t";
+//            }std::cout << std::endl;
+//        }
         SetData(data, i, GetPartWeightMatrixData(matrix, weight, new Point(_row, _col)));
     }
     return data;
