@@ -79,8 +79,6 @@ float FSR::CalPointEdgeCharacterX(int matrix[], Point *point) {
     int leftMinusRight = CalPointMinusPointEdgeCharacter(matrix, rightPoint, leftPoint);
     int denominator = MaxAbs(rightMinusCur, leftMinusCur);
     if(denominator == 0) return 0;
-    point->Print();
-    std::cout << float(abs(leftMinusRight)) / denominator << ", " << rightMinusCur << ", " << leftMinusCur << ", " << leftMinusRight << std::endl;
     return float(abs(leftMinusRight)) / denominator;
 }
 
